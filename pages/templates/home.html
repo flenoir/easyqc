@@ -3,17 +3,28 @@
 {% block first_row %}        
 
 
-{% load socialaccount %}
+    {% load socialaccount %}
 
+    <div class="bg-white shadow-lg max-w-lg rounded-lg">
+        <div class="p-2"></div>
 
-<h1>EasyQC Authentication</h1>
-{% if user.is_authenticated %}
-<p>Welcome {{ user.username }} !!!</p>
-<p><a href="{% url 'account_logout' %}">Log out</a>
-{% else %}
-<p><a href="{% url 'account_signup' %}">Sign Up</a></p>
-<p><a href="{% url 'account_login' %}">Log In </a></p>
-<p><a href="{% provider_login_url 'google' %}">Log In with Gmail</a></p>
-{% endif %}
+        <h1 class="text-lg text-center">EasyQC Authentication</h1>
+        <div class="p-2"></div>
+
+        <img src="https://i.picsum.photos/id/177/2515/1830.jpg" class="w-full h-40 object-cover" alt="">
+        <div class="p-2"></div>
+        
+        {% if user.is_authenticated %}
+        <p class="text-center">Welcome {{ user.username }} !!!</p>
+        <p class="text-right mr-4 p-2"><a href="{% url 'account_logout' %}">Log out</a>
+
+        {% else %}
+        <p class="text-center p-2"><a href="{% url 'account_signup' %}">Sign Up</a></p>
+        <p class="text-center p-2"><a href="{% url 'account_login' %}">Log In </a></p>
+        <p class="text-center p-2"><a href="{% provider_login_url 'google' %}">Log In with Gmail</a></p>
+        {% endif %}
+
+    </div>
+
 
 {% endblock %}
