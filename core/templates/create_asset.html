@@ -1,0 +1,6 @@
+<h2>Create Asset</h2>
+<form method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Create asset</button>
+</form>

@@ -161,3 +161,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'core/assets/files/')
+
+MEDIA_URL = '/assets/'

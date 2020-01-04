@@ -1,0 +1,18 @@
+<h2>Assets list</h2>
+
+<table class='table'>
+<thead>
+    <tr>
+        <th>UUID</th>
+        <th>Filename</th>
+    </tr>
+</thead>
+<tbody>
+    {% for asset in assets %}
+    <tr>
+        <td>{{ asset.uuid }}</td>
+        <td>{{ asset.filename }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>

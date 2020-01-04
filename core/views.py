@@ -1,23 +1,36 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, CreateView
 from .models import Asset
+from django.core.files.storage import FileSystemStorage
+from django.urls import reverse_lazy
+
+
+from .forms import AssetForm
 
 # Create your views here.
 
-def upload(request):
-    if request.method == 'POST':
-        uploaded_file = request.FILES['document']
-        print(uploaded_file.name)
-        print(uploaded_file.size)
-    return render(request, 'upload.html')
+
+
+# def upload(request):
+#     if request.method == 'POST':
+#         context = {}
+#         uploaded_file = request.FILES['document']
+#         print(uploaded_file.name)
+#         print(uploaded_file.size)
+#         fs= FileSystemStorage()
+#         name = fs.save(uploaded_file.name, uploaded_file)
+#         context['url'] = fs.url(name)
+#         return render(request, 'upload.html', context)
+#     return render(request, 'upload.html')
 
 class MainPageView(TemplateView):
     template_name = 'main.html'
 
-class CreateAssetView(CreateView):
+class UploadAssetView(CreateView):
     model = Asset
     fields = ('uuid', 'filename', 'file')
-    success_url = 'asset_list'
+    # form_class= AssetForm
+    success_url = reverse_lazy('asset_list')
     template_name = 'create_asset.html'
 
 
