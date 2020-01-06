@@ -1,10 +1,11 @@
 from django.db import models
+import uuid
 
 
 # Create your models here.
 
 class Asset(models.Model):
-    uuid = models.CharField(max_length=100, primary_key=True, null=False)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, null=False)
     filename = models.CharField(max_length=150)
     file = models.FileField(upload_to='files/')
 

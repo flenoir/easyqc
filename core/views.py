@@ -28,7 +28,7 @@ class MainPageView(TemplateView):
 
 class UploadAssetView(CreateView):
     model = Asset
-    fields = ('uuid', 'filename', 'file')
+    fields = ('filename', 'file')
     # form_class= AssetForm
     success_url = reverse_lazy('asset_list')
     template_name = 'create_asset.html'
