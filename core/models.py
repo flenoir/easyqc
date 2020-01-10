@@ -11,3 +11,6 @@ class Asset(models.Model):
 
     def __str__(self):
         return self.filename
+
+    # def save(self):
+    #     pass

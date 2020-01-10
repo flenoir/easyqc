@@ -3,6 +3,8 @@ from django.views.generic import TemplateView, ListView, CreateView
 from .models import Asset
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+import os
 
 
 from .forms import AssetForm
@@ -32,6 +34,15 @@ class UploadAssetView(CreateView):
     # form_class= AssetForm
     success_url = reverse_lazy('asset_list')
     template_name = 'create_asset.html'
+
+
+    def form_valid(self, form):
+        base = str(form.instance.file)
+        base_wo_ext = os.path.splitext(base)[0]
+        form.instance.filename = base_wo_ext
+        return super(UploadAssetView, self).form_valid(form)
+        
+
 
 
 class AssetListView(ListView):

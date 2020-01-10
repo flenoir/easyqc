@@ -5,4 +5,4 @@ from .models import Asset
 class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
-        fields = fields = ('filename', 'file')
+        fields = ('filename', 'file')
