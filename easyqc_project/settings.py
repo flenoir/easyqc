@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'pages',
     'users',
     'core',
+    'pymediainfo',
 
     'allauth',
     'allauth.account',

@@ -5,6 +5,8 @@ from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 import os
+from pymediainfo import MediaInfo
+from django.conf import settings
 
 
 from .forms import AssetForm
@@ -35,14 +37,20 @@ class UploadAssetView(CreateView):
     success_url = reverse_lazy('asset_list')
     template_name = 'create_asset.html'
 
+    def parse_mediainfo(self, file):
+        mediadir = os.path.join(settings.BASE_DIR, 'core\\assets\\')
+        mediainfo = MediaInfo.parse(str(mediadir)+str(file))
+        for track in mediainfo.tracks:
+            print(track)
 
     def form_valid(self, form):
+        # print(self.request.POST)
         base = str(form.instance.file)
         base_wo_ext = os.path.splitext(base)[0]
         form.instance.filename = base_wo_ext
-        return super(UploadAssetView, self).form_valid(form)
-        
-
+        response = super(UploadAssetView, self).form_valid(form)
+        self.parse_mediainfo(form.instance.file)
+        return response
 
 
 class AssetListView(ListView):
