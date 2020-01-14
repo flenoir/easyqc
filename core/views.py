@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, CreateView
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView
 from .models import Asset
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse_lazy
@@ -56,7 +56,7 @@ class UploadAssetView(CreateView):
         base_wo_ext = os.path.splitext(base)[0]
         form.instance.filename = base_wo_ext
 
-        # call super in order to avaoid runtime error
+        # call super in order to avaoid runtime error (file noot fully sent ?)
         super(UploadAssetView, self).form_valid(form)
         json_data = self.parse_mediainfo(form.instance.file)
         form.instance.data = json_data
@@ -68,6 +68,13 @@ class AssetListView(ListView):
     model = Asset
     template_name = 'asset_list.html'
     context_object_name = 'assets'
+
+
+class AssetUpdateView(UpdateView):
+    model = Asset
+    fields = ('filename', 'file', 'data')
+    template_name = 'update_asset.html'
+    success_url = reverse_lazy('asset_list')
 
 
         
