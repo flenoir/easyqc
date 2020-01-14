@@ -14,3 +14,8 @@ class Asset(models.Model):
 
     # def save(self):
     #     pass
+
+    # surcharge de la methode delete
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        super().delete(*args, **kwargs)

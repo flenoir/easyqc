@@ -10,6 +10,7 @@ urlpatterns = [
     # path('upload/', views.upload, name='upload'),
     path('assets/', AssetListView.as_view(), name='asset_list'),
     path('assets/create/', UploadAssetView.as_view(), name='create_asset'),
+    path('assets/<uuid:pk>', views.delete_asset, name='delete_asset'),
 
 ]
 

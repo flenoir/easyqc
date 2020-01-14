@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, CreateView
 from .models import Asset
 from django.core.files.storage import FileSystemStorage
@@ -10,6 +10,7 @@ from django.conf import settings
 
 
 from .forms import AssetForm
+
 
 # Create your views here.
 
@@ -27,6 +28,12 @@ from .forms import AssetForm
 #         return render(request, 'upload.html', context)
 #     return render(request, 'upload.html')
 
+def delete_asset(request,pk):
+    if request.method == 'POST':
+        asset = Asset.objects.get(pk=pk)
+        asset.delete()
+    return redirect('asset_list')
+
 class MainPageView(TemplateView):
     template_name = 'main.html'
 
@@ -40,8 +47,9 @@ class UploadAssetView(CreateView):
     def parse_mediainfo(self, file):
         mediadir = os.path.join(settings.BASE_DIR, 'core\\assets\\')
         mediainfo = MediaInfo.parse(str(mediadir)+str(file))
-        for track in mediainfo.tracks:
-            print(track)
+        print(mediainfo.to_json())
+        # for track in mediainfo.tracks:
+        #     print(track)
 
     def form_valid(self, form):
         # print(self.request.POST)
@@ -57,4 +65,7 @@ class AssetListView(ListView):
     model = Asset
     template_name = 'asset_list.html'
     context_object_name = 'assets'
+
+
+        
 
