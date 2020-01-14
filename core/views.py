@@ -39,7 +39,7 @@ class MainPageView(TemplateView):
 
 class UploadAssetView(CreateView):
     model = Asset
-    fields = ('filename', 'file')
+    fields = ('filename', 'file', 'data')
     # form_class= AssetForm
     success_url = reverse_lazy('asset_list')
     template_name = 'create_asset.html'
@@ -47,17 +47,20 @@ class UploadAssetView(CreateView):
     def parse_mediainfo(self, file):
         mediadir = os.path.join(settings.BASE_DIR, 'core\\assets\\')
         mediainfo = MediaInfo.parse(str(mediadir)+str(file))
-        print(mediainfo.to_json())
-        # for track in mediainfo.tracks:
-        #     print(track)
+        # print(mediainfo.to_json())
+        media_json = mediainfo.to_json()
+        return media_json
 
     def form_valid(self, form):
-        # print(self.request.POST)
         base = str(form.instance.file)
         base_wo_ext = os.path.splitext(base)[0]
         form.instance.filename = base_wo_ext
+
+        # call super in order to avaoid runtime error
+        super(UploadAssetView, self).form_valid(form)
+        json_data = self.parse_mediainfo(form.instance.file)
+        form.instance.data = json_data
         response = super(UploadAssetView, self).form_valid(form)
-        self.parse_mediainfo(form.instance.file)
         return response
 
 
